@@ -6,15 +6,16 @@
     <title>wanderlust</title>
 </head>
 <body>
+    <h3>Edit listing</h3>
 
-    <form > 
+    <form method="post" action="/listings/<%=listing._id%>?_method=PUT" > 
         <input type="text" name="listing[title]"  value="<%=listing.title%>"><br><br>
-        <textarea name="listing[description]" value="<%=listing.description%>"</textarea><br><br>
+        <textarea name="listing[description]" value=""><%=listing.description%></textarea><br><br>
         <input type="number" name="listing[price]"  value="<%=listing.price%>"><br><br>
-        <input type="text" name="listing[image]"  value="<%=listing.image%>"><br><br>
+        <input type="text" name="listing[image]"  value="<%=listing.image.url%>"><br><br>
         <input type="text" name="listing[location]" value="<%=listing.location%>"><br><br>
         <input type="text" name="listing[country]" value="<%=listing.country%>"><br><br>
-        <button>Add</button>
+        <button>Edit</button>
     </form>
     
 </body>
