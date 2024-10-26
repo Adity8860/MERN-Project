@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listings.model.js");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMates = require("ejs-mate");
 
 const MONGODB_URI = "mongodb://localhost:27017/wanderlust2";
 
@@ -11,6 +12,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMates);
+app.use(express.static(path.join(__dirname, "/public")));
 
 main()
   .then(() => {

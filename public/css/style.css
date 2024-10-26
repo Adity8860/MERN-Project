@@ -1,0 +1,11 @@
+  .navbar{
+   height: 5rem;
+   background-color: rgb(246, 241, 241)!important;
+  }
+  .fa-airbnb{
+   color: #fe424d;
+   font-size: 2rem;
+  }
+  .nav-link{
+   color: #222222!important;
+  }
