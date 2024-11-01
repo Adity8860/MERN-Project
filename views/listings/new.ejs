@@ -4,7 +4,12 @@
   <div class="row mt-3">
     <div class="col-8 offset-2">
       <h3>Create New Listings</h3>
-      <form action="/listings" method="POST" class="needs-validation" novalidate>
+      <form
+        action="/listings"
+        method="POST"
+        class="needs-validation"
+        novalidate
+      >
         <div>
           <label for="title" class="form-label">Title</label>
           <input
@@ -66,8 +71,28 @@
             required
           />
         </div>
-         <button class="btn btn-dark add-btn">Add</button>
-       </form>
+        <button class="btn btn-dark add-btn mt-3">Add</button>
+      </form>
     </div>
   </div>
+
+  <script>
+  
+  // Example of enabling Bootstrap validation
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+
+  </script>
 </body>
