@@ -4,15 +4,15 @@
   <div class="row mt-3">
     <div class="col-8 offset-2">
       <h3>Create New Listings</h3>
-      <form action="/listings" method="POST">
+      <form action="/listings" method="POST" class="needs-validation" novalidate>
         <div>
           <label for="title" class="form-label">Title</label>
           <input
             type="text"
-            cc
             name="listing[title]"
             placeholder="Enter title"
             class="form-control"
+            required
           />
         </div>
         <div>
@@ -21,17 +21,18 @@
             name="listing[description]"
             placeholder="Enter description"
             class="form-control"
+            required
           ></textarea>
         </div>
         <div>
-            <label for="image" class="form-label">ImageURL</label>
-            <input
-              type="text"
-              name="listing[image]"
-              placeholder="Enter image URL"
-              class="form-control"
-            />
-          </div>
+          <label for="image" class="form-label">ImageURL</label>
+          <input
+            type="text"
+            name="listing[image]"
+            placeholder="Enter image URL"
+            class="form-control"
+          />
+        </div>
         <div class="row">
           <div class="mb-3 col-md-6">
             <label for="price" class="form-label">Price</label>
@@ -41,6 +42,7 @@
               placeholder="Enter price"
               placeholder="Enter description"
               class="form-control"
+              required
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -50,6 +52,7 @@
               name="listing[country]"
               placeholder="Enter country"
               class="form-control"
+              required
             />
           </div>
         </div>
@@ -60,12 +63,11 @@
             name="listing[location]"
             placeholder="Enter Location"
             class="form-control"
+            required
           />
-        </div><br>
-        <button class="btn btn-dark add-btn">Add</button>
-        <br></form>
-     
-      </form>
+        </div>
+         <button class="btn btn-dark add-btn">Add</button>
+       </form>
     </div>
   </div>
 </body>
