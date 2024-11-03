@@ -19,6 +19,7 @@
             class="form-control"
             required
           />
+          <div class="valid-feedback">You Enter valid Title</div>
         </div>
         <div>
           <label for="description" class="form-label">Description</label>
@@ -36,19 +37,21 @@
             name="listing[image]"
             placeholder="Enter image URL"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">Please Enter Image URL</div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
             <label for="price" class="form-label">Price</label>
             <input
-              type="number"
               name="listing[price]"
               placeholder="Enter price"
               placeholder="Enter description"
               class="form-control"
               required
             />
+            <div class="invalid-feedback">enter valid number</div>
           </div>
           <div class="mb-3 col-md-6">
             <label for="country" class="form-label">Country</label>
@@ -59,6 +62,7 @@
               class="form-control"
               required
             />
+            <div class="invalid-feedback">Enter Country</div>
           </div>
         </div>
         <div>
@@ -70,6 +74,7 @@
             class="form-control"
             required
           />
+          <div class="invalid-feedback">Enter Location</div>
         </div>
         <button class="btn btn-dark add-btn mt-3">Add</button>
       </form>
@@ -77,22 +82,28 @@
   </div>
 
   <script>
-  
-  // Example of enabling Bootstrap validation
-  (function () {
-    'use strict'
-    var forms = document.querySelectorAll('.needs-validation')
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
+    // Example of enabling Bootstrap validation
+    (() => {
+      "use strict";
 
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll(".needs-validation");
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach((form) => {
+        form.addEventListener(
+          "submit",
+          (event) => {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+    })();
   </script>
 </body>
