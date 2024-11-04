@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMates = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { listingSchema } = require("./schema.js");
 
 const MONGODB_URI = "mongodb://localhost:27017/wanderlust2";
 
@@ -29,6 +30,16 @@ async function main() {
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+//Middleware
+
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  let errorMessage = error?.details.map((el) => el.message).join(",");
+  if (error) {
+    throw new ExpressError(400, errorMessage);
+  } 
+  next()
+};
 
 //Index Route
 app.get(
@@ -55,11 +66,9 @@ app.get(
 //Create Route
 app.post(
   "/listings",
+  validateListing,
   wrapAsync(async (req, res, next) => {
-    if (!req.body.listing) {
-      throw new ExpressError("Invalid Listing Data", 400);
-    }
-    const newListing = new Listing(req.body.listing);
+     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
   })
@@ -67,7 +76,7 @@ app.post(
 
 //Edit Route
 app.get(
-  "/listings/:id/edit",
+  "/listings/:id/edit",  
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -77,11 +86,9 @@ app.get(
 
 //Update Route
 app.put(
-  "/listings/:id",
+  "/listings/:id", validateListing,
   wrapAsync(async (req, res) => {
-    if (!req.body.listing) {
-      throw new ExpressError("Invalid Listing Data", 400);
-    }
+    
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id, {
       ...req.body.listing,
@@ -100,14 +107,14 @@ app.delete(
   })
 );
 
+//Error Handling
 app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "Page Not Found!"));
+  next(new ExpressError("Page Not Found",404));
 });
-
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "Something went wrong" } = err;
+  let { statusCode = 500, message = "Something went wrong" } = err;
   if (statusCode !== 404) {
-    console.error(err); // Log the error to the console
+    console.error(err);
   }
   res.status(statusCode).render("error.ejs", { message });
 });

@@ -17,7 +17,7 @@ const listingSchema = new Schema({
     filename: String,
     url: {
       type: String,
-      default:"https://images.unsplash.com/photo-1579285466670-006e66e6055e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      default:"https://images.unsplash.com/photo-1441260038675-7329ab4cc264?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   },
   // image: {
