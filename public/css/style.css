@@ -58,7 +58,7 @@ footer {
 
 /*Cards styling*/
 
-.card {
+.card{
   border: none !important;
   margin-bottom: 2rem;
 }
@@ -92,4 +92,10 @@ footer {
 }
 .btns {
   display: flex;
+}
+
+
+/*Reviews*/
+.review-card {
+  border: 1px solid black !important;
 }
