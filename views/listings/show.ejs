@@ -11,11 +11,22 @@
           <img src="<%= listing.image.url %>" class="card-img-top" alt="..." />
           <div class="card-body">
 
+            <div>
+
+              <% if (listing.owner.username) { %>
+                <p>Owned By: <i style="color: rgb(254, 94, 58);">
+                    <%= listing.owner.username %>
+                  </i></p>
+                <% } else { %>
+                  <p> Owned By: <i style="color: rgb(254, 94, 58);"> Unknown</i></p>
+                  <% } %>
+            </div>
+
             <p>
               <%= listing.description%>
             </p>
             <p>
-              ₹<%= (listing.price || 0).toLocaleString("en-IN") %>  
+              ₹<%= (listing.price || 0).toLocaleString("en-IN") %>
             </p>
             <p>
               <%=listing.location%>
@@ -25,14 +36,15 @@
             </p>
           </div>
         </div>
-        <div class="btns">
+        <% if (currUser?.equals(listing.owner)) { %>
+          <div class="btns ">
 
-          <a class="btn btn-success " href="/listings/<%=listing._id%>/edit">Edit</a>
-          <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
-            <button class=" btn btn-dark">Delete</button>
-          </form>
-        </div>
-
+            <a class="btn btn-success " href="/listings/<%=listing._id%>/edit">Edit</a>
+            <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
+              <button class=" btn btn-dark mx-5">Delete</button>
+            </form>
+          </div>
+          <%}%>
       </div>
     </div>
 

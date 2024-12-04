@@ -1,33 +1,30 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<!-- <%= successMsg %> -->
+  <!-- <%= successMsg %> -->
 
-<body>
-  <h3>All Listings</h3>
-  <!-- <form action="listings/new" method="GET">
+  <body>
+    <h3>All Listings</h3>
+    <!-- <form action="listings/new" method="GET">
             <button>Create New Listing</button>
         </form> -->
 
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <%for(let listing of allListings){%>
-    <a href="/listings/<%= listing._id %>" class="listing-link">
-      <div class="card" style="width: 22rem" offset-1>
-        <img
-          src="<%= listing.image.url %>"
-          class="card-img-top"
-          alt="listing_image "
-          style="height: 20rem"
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body">
-          <b><i> <%= listing.title %> </i></b><br />
-          <!-- <%= listing.description %> -->
-          ₹ <%= (listing.price || 0).toLocaleString("en-IN") %><br />
-          <i class="fa-solid fa-location-dot"></i>
-          <%= listing.location %><br />
-          <%= listing.category %><br />
-        </div>
-      </div>
-      <% }%>
-    </a>
-  </div>
-</body>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+      <%for(let listing of allListings){%>
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+          <div class="card" style="width: 22rem" offset-1>
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image " style="height: 20rem" />
+            <div class="card-img-overlay"></div>
+            <div class="card-body">
+              <b><i>
+                  <%= listing.title %>
+                </i></b><br />
+              <!-- <%= listing.description %> -->
+              ₹ <%= (listing.price || 0).toLocaleString("en-IN") %><br />
+                <i class="fa-solid fa-location-dot"></i>
+                <%= listing.location %><br />
+                  <%= listing.category %><br />
+            </div>
+          </div>
+          <% }%>
+        </a>
+    </div>
+  </body>
