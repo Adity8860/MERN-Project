@@ -1,5 +1,6 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
+
   <div>
     <div class="row">
       <div class="col-6 offset-2">
@@ -52,9 +53,26 @@
       <% if(currUser) { %>
         <h4>Leave a Review</h4>
         <form action="/listings/<%=listing._id%>/reviews" method="POST" novalidate class="needs-validation">
-          <div class="mb-3 mt-3">
+          <!-- <div class="mb-3 mt-3">
             <label class="form-label" for="rating">Rating</label>
             <input class="form-range" name="review[rating]" type="range" min="1" max="5">
+          </div> -->
+          <div class="mb-1 mt-3">
+            <label class="form-label" for="rating">Give Rating</label>
+            <fieldset class="starability-slot">
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked
+                aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
           </div>
           <div class="mb-3 mt-3">
             <label class="form-label" for="comment">Comments</label>
@@ -70,13 +88,14 @@
             <%for(let review of listing.reviews){%>
               <div class="card review-card col-5 mb-3 ms-3">
                 <div class="card-body">
-                 
-                  <h5 class="card-title" style="color: rgb(214, 98, 98);"><%=review.author.username%></h5>
+
+                  <h5 class="card-title" style="color: rgb(214, 98, 98);">
+                    <%=review.author.username%>
+                  </h5>
+                  <p class="starability-result card-text" data-rating=<%=review.rating%>> </p>
+
                   <p class="card-text">
                     <%=review.comment%>
-                  </p>
-                  <p class="card-text">
-                    <%=review.rating%> Stars
                   </p>
                   <form class="mb-3" method="post"
                     action="/listings/<%=listing._id%>/reviews/<%=review._id %>?_method=DELETE">
@@ -89,30 +108,4 @@
     </div>
   </div>
 
-
-  <script>
-    // Example of enabling Bootstrap validation
-    (() => {
-      "use strict";
-
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      const forms = document.querySelectorAll(".needs-validation");
-
-      // Loop over them and prevent submission
-      Array.from(forms).forEach((form) => {
-        form.addEventListener(
-          "submit",
-          (event) => {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  </script>
   </body>
