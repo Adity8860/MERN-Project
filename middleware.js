@@ -54,3 +54,15 @@ module.exports.isReviewAuther = async (req, res, next) => {
   }
   next();
 };
+// module.exports.fileSizeLimit = (req, res, next) => {
+//   if (req.file) {  
+//     const fileSize = req.file.size; 
+//     if (fileSize > 10 * 1024 * 1024) {   
+//       return res.status(400).send('File size exceeds the limit.');
+//     }
+//   } else {
+//     return res.status(400).send('No file uploaded.');  
+    
+//   }
+//   next();  
+// };

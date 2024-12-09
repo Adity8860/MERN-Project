@@ -21,7 +21,7 @@ module.exports.showRoute = async (req, res) => {
 module.exports.createRoute = async (req, res, next) => {
   let url = req.file.path;
   let filename = req.file.filename;
-   
+
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
@@ -33,14 +33,26 @@ module.exports.createRoute = async (req, res, next) => {
 module.exports.editRoute = async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("listings/edit.ejs", { listing });
+  if (!listing) {
+    req.flash("failed", "Listing not found");
+    return res.redirect("/listings");
+  }
+  let originalUrl = listing.image.url.replace("/upload", "/upload/w_300,h_250");
+  res.render("listings/edit.ejs", { listing , originalUrl});
 };
 module.exports.updateRoute = async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, {
+  const listing = await Listing.findByIdAndUpdate(id, {
     ...req.body.listing,
   });
+  if (typeof req.file !== "undefined") {
+    let url = req.file.path;
+    let filename = req.file.filename;
 
+    listing.image = { url, filename };
+    listing.save();
+  }
+  req.flash("success", "Listing Updated");
   res.redirect(`/listings/${id}`);
 };
 module.exports.deleteRoute = async (req, res) => {
@@ -49,4 +61,4 @@ module.exports.deleteRoute = async (req, res) => {
   console.log(deletedListing);
   req.flash("success", "Listing Deleted");
   res.redirect("/listings");
-}
+};

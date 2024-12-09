@@ -4,7 +4,7 @@
     <div class="col-8 offset-2">
       <h3>Edit listing</h3>
 
-      <form method="post" action="/listings/<%=listing._id%>?_method=PUT">
+      <form method="post" action="/listings/<%=listing._id%>?_method=PUT" enctype="multipart/form-data">
         <div>
           <label for="title" class="form-label">Title</label>
           <input
@@ -47,16 +47,20 @@
             />
           </div>
         </div>
+        <div >
+          <img style="width: 18rem; height: auto;" src="<%=originalUrl%>" alt="">
+           
+        </div>
 
         <div class="mb-3">
-          <label for="imageurl" class="form-label">Image URL</label>
+          <label for="imageurl" class="form-label">Upload New Image</label>
           <input
-            type="url"
+            type="file"
             class="form-control"
             id="image"
             name="listing[image][url]"
             value="<%=listing.image.url%>"
-          />
+           />
         </div>
 
         <div>
@@ -69,7 +73,7 @@
             value="<%=listing.location%>"
           />
         </div>
-        <button class="btn btn-dark edit-btn">Edit</button>
+        <button class="btn btn-dark edit-btn mt-3 mb-3">Update</button>
       </form>
     </div>
   </div>
