@@ -22,22 +22,6 @@ router
     userCtrl.login_post
   );
 
-// router.get("/signup", userCtrl.signup_get);
-
-// router.post("/signup", wrapAsync(userCtrl.signup_post));
-
-// router.get("/login", userCtrl.login_get);
-
-// router.post(
-//   "/login",
-//   saveRedirectUrl,
-//   passport.authenticate("local", {
-//     failureRedirect: "/login",
-//     failureFlash: true,
-//   }),
-//   userCtrl.login_post
-// );
-
 router.get("/logout", userCtrl.logout_get);
 
 module.exports = router;
