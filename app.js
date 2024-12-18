@@ -12,13 +12,15 @@ const ExpressError = require("./utils/ExpressError.js");
 const listingsRoute = require("./routes/listings.route.js");
 const reviewsRoute = require("./routes/reviews.route.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/users.model.js");
 const userRoute = require("./routes/user.route.js");
 
-const MONGODB_URI = "mongodb://localhost:27017/wanderlust2";
+// const MONGODB_URI = "mongodb://localhost:27017/wanderlust2";
+const dbUrl = process.env.ATLASDB_URL;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -32,10 +34,30 @@ main()
     console.log("Connected to MongoDB");
   })
   .catch((err) => console.log(err));
+
 async function main() {
-  await mongoose.connect(MONGODB_URI);
+  try {
+    await mongoose.connect(dbUrl);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.log(err);
+  }
 }
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: "secretcode",
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", (err) => {
+  console.log("Error in Mongo Store", err);
+});
+
 const sessionOptions = {
+  store,
   secret: "secretcode",
   resave: false,
   saveUninitialized: true,
@@ -46,9 +68,9 @@ const sessionOptions = {
   },
 };
 
-app.get("/", (req, res) => {
-  res.send("Hello World, I'm a root route");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World, I'm a root route");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -62,20 +84,13 @@ passport.deserializeUser(User.deserializeUser());
 
 //Middleware
 app.use((req, res, next) => {
-  res.locals.successMsg = req.flash("success");
-  res.locals.failedMsg = req.flash("failed");
-  res.locals.currUser = req.user;
+  res.locals.successMsg = req.flash("success") || [];
+  res.locals.failedMsg = req.flash("failed") || [];
+  res.locals.currUser = req.user || null;
 
   next();
 });
-// app.get("/demouser", async (req, res) => {
-//   let fakeuser = new User({
-//     username: "demouser",
-//     email: "demouser@gmail.com",
-//   });
-//   let registerUser = await User.register(fakeuser, "demouser");
-//   res.send(registerUser);
-// });
+ 
 
 app.use("/listings", listingsRoute);
 app.use("/listings/:id/reviews", reviewsRoute);

@@ -1,11 +1,94 @@
 <% layout("/layouts/boilerplate.ejs") %>
   <!-- <%= successMsg %> -->
 
+  <style>
+    #filters {
+      display: flex;
+      flex-wrap: wrap; 
+      align-items: center;
+    }
+
+    .filter {
+      text-align: center;
+      margin-right: 2rem;
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .filter p {
+      font-size: 0.8rem;
+
+    }
+
+    .tax-info {
+      display: none
+    }
+    .tax-toggle{
+      border: 1px solid rgba(0, 0, 0, 0.077);
+      border-radius: 1rem;
+      height: 3.5rem;
+      padding: 1rem;
+      margin-left: 28.5rem;
+      background:rgba(244, 244, 244, 0.49);
+      &:hover{
+        background:rgba(244, 244, 244, 0.99);
+      }
+    }
+  </style>
+
   <body>
-    <h3>All Listings</h3>
+    <!-- <h3>All Listings</h3> -->
     <!-- <form action="listings/new" method="GET">
             <button>Create New Listing</button>
         </form> -->
+
+    <div class="mb-3 p-2" id="filters">
+      <div class="filter">
+        <div> <i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Room</p>
+      </div>
+      <div class="filter">
+        <div> <i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic City</p>
+      </div>
+      <div class="filter">
+        <div> <i class="fa-solid fa-mountain"></i></i></div>
+        <p>Mountain</p>
+      </div>
+      <div class="filter">
+        <div> <i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castles</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-cow"></i></div>
+        <p>Farms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Artice </p>
+      </div>
+      <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Display Taxes</label>
+        </div>
+      </div>
+
+
+    </div>
 
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
       <%for(let listing of allListings){%>
@@ -17,14 +100,42 @@
               <b><i>
                   <%= listing.title %>
                 </i></b><br />
-              <!-- <%= listing.description %> -->
-              ₹ <%= (listing.price || 0).toLocaleString("en-IN") %><br />
-                <i class="fa-solid fa-location-dot"></i>
-                <%= listing.location %><br />
-                  <%= listing.category %><br />
+              <b> ₹ <%= (listing.price || 0).toLocaleString("en-IN") %>
+                  <i class="tax-info"> +18% GST</i><br /></b>
+
+
+              <!-- <i class="fa-solid fa-location-dot"></i>
+              <%= listing.location %><br />
+                <%= listing.category %><br /> -->
             </div>
           </div>
           <% }%>
         </a>
     </div>
+    <script>
+      let taxSwitch = document.querySelector("#flexSwitchCheckDefault");
+      taxSwitch.addEventListener("change", function () {
+        let taxInfo = document.querySelectorAll(".tax-info")
+        for (let info of taxInfo) {
+          if (info.style.display != "inline") {
+            info.style.display = "inline"
+          } else {
+            info.style.display = "none"
+          }
+        }
+
+      })
+
+      // let taxSwitch = document.querySelector("#flexSwitchCheckDefault");
+      // taxSwitch.addEventListener("change", function () {
+      //   let taxInfo = document.querySelectorAll(".tax-info"); // Changed to querySelectorAll
+      //   for (let info of taxInfo) { // Correctly iterating over NodeList
+      //     if (taxSwitch.checked) { // Check if the switch is checked
+      //       info.style.display = "inline"; // Show tax info
+      //     } else {
+      //       info.style.display = "none"; // Hide tax info
+      //     }
+      //   }
+      // });
+    </script>
   </body>
